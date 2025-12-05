@@ -1,4 +1,4 @@
-.PHONY: all html clean
+.PHONY: all html index.html clean
 .SILENT: test test-docker html index.html
 
 SCHEME=chibi

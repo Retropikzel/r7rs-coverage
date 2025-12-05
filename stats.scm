@@ -134,7 +134,7 @@
       (parse-data)
       (let ((scheme-list (sort *schemes* (lambda (a b) (symbol<? a b)))))
         (format #t "<html><head><meta charset=\"utf-8\"/></head><body>~%")
-        (format #t "<table><thead><tr>")
+        (format #t "<table border=1><thead><tr>")
         (for-each (lambda (scheme)
                     (if (symbol? scheme)
                         (let* ((parts (string-split (symbol->string scheme) #\-))
