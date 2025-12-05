@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     def schemes = sh(script: 'compile-scheme --list-r7rs-except larceny', returnStdout: true).split()
-                    r7rs_schemes.each { SCHEME ->
+                    schemes.each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "timeout 600 make SCHEME=${SCHEME} SRFI=${SRFI} test-r7rs-docker"
