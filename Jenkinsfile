@@ -27,7 +27,7 @@ pipeline {
                     schemes.each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "timeout 600 make SCHEME=${SCHEME} SRFI=${SRFI} test-r7rs-docker"
+                                sh "make SCHEME=${SCHEME} test-docker"
                             }
                         }
                     }
