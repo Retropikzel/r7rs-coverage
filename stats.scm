@@ -137,15 +137,25 @@
 
 (define format-group-row
   (lambda args
-    (format #t "<tr>")
-    (for-each (lambda (item) (format #t "<th><b>~a</b></th>" item)) args)
-    (format #t "</tr>")))
+    (when (not (null? args))
+      (format #t "<tr>")
+      (for-each (lambda (item) (format #t "<th><b>~a</b></th>" item)) args)
+      (format #t "</tr>"))))
 
 (define format-row
   (lambda args
-    (format #t "<tr>")
-    (for-each (lambda (item) (format #t "<td>~a</td>" item)) args)
-    (format #t "</tr>")))
+    (when (not (null? args))
+      (format #t "<tr>")
+      (format #t
+              "<td id=\"~a\"><a href=\"#~a\">~a"
+              (car args)
+              (car args)
+              (car args))
+      (for-each
+        (lambda (item)
+          (format #t "<td>~a</td>" item))
+        (cdr args))
+      (format #t "</tr>"))))
 
 (define (format-thead scheme-list)
   (format #t "<table border=1><thead><tr>")
@@ -156,7 +166,7 @@
                (name (car parts))
                (version (cadr parts)))
           (format #t
-                  "<th>~a<br/><small>~a</small></th>"
+                  "<th>~a <small>~a</small></th>"
                   name
                   version))
         (format #t "<th>~a</th>" scheme)))
@@ -170,6 +180,20 @@
         0
         1))
     r))
+
+(define (collect-result-summary r scheme)
+  (apply
+    string-append
+    (map
+      (lambda (result)
+        (string-append
+          (if (equal? (hash-table-ref/default (cdr result) scheme 'error)
+                      'ok)
+            "✓ "
+            "× ")
+          (car result)
+          "</br>"))
+      r)))
 
 (define (format-stats)
   (with-output-to-file
@@ -196,21 +220,24 @@
               (lambda (test)
                 (let ((r (get-res group test))
                       (id (next-id)))
-                  (apply format-row
-                         `(,test
-                            ,@(map
-                                (lambda (scheme)
-                                  (let* ((x (count-result r scheme))
-                                         (ok (apply + x))
-                                         (total (length x)))
-                                    (format "~a/~a ~a"
-                                            ok
-                                            total
-                                            (if (= ok total)
-                                              "✓"
-                                              (if (= 0 ok) "×" "◑")))))
-                                (sort *schemes*
-                                      (lambda (a b) (symbol<? a b))))))))
+                  (apply
+                    format-row
+                    `(,test
+                       ,@(map
+                           (lambda (scheme)
+                             (let* ((x (count-result r scheme))
+                                    (ok (apply + x))
+                                    (total (length x)))
+                               (format "<details><summary>~a ~a/~a</summary>~a</br>~a</details>"
+                                       (if (= ok total)
+                                         "✓"
+                                         (if (= 0 ok) "×" "◑"))
+                                       ok
+                                       total
+                                       scheme
+                                       (collect-result-summary r scheme))
+                               ))
+                           scheme-list)))))
               (sort (hash-table-ref/default *tests* group '())
                     (lambda (a b) (string<? a b)))))
           (sort *groups*
