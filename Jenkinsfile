@@ -37,7 +37,7 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             sh "make html"
             publishHTML (target : [allowMissing: false,
                     alwaysLinkToLastBuild: true,
