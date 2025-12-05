@@ -43,7 +43,7 @@ pipeline {
             publishHTML (target : [allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: 'reports',
+                    reportDir: '',
                     reportFiles: 'index.html',
                     reportName: 'r7rs-coverage',
                     reportTitles: 'r7rs-coverage'])
