@@ -6,7 +6,6 @@ SCHEME_VERSION=0.0.0
 CPU_LIMIT=${CPU_LIMIT:-"5"}
 DOCKERIMG=${SCHEME_NAME}:latest
 
-
 temp_dir=$(mktemp -d)
 
 for pkg in input/*.scm

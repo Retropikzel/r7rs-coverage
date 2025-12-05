@@ -1,9 +1,3 @@
-;; chez scheme
-#;(import (scheme base)
-        (only (mit-compat) nested-hash-table/put! nested-hash-table/get burst-string)
-        (only (srfi :1) first second third fourth fifth)
-        (srfi :69))
-
 (import (scheme base)
         (scheme write)
         (scheme file)
