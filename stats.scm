@@ -134,50 +134,6 @@
       (parse-data)
       (let ((scheme-list (sort *schemes* (lambda (a b) (symbol<? a b)))))
         (format #t "<html><head><meta charset=\"utf-8\"/></head><body>~%")
-        (format #t "<style>
-body { max-width: 1800px; }
-.group { font-size: 130%; border-top: 2px solid grey; border-bottom: 1px solid grey; }
-.testname { font-style: italic; font-size: 80%; font-weight: lighter; }
-.offset { margin-left: 1em; }
-.selected { background-color: #060; }
-.ok { color: #0b0; }
-.error { color: #b00; }
-.details { color: #888; font-size: 70%; }
-table { margin: 0; padding: 0; cell-padding: 0; width: 100%; border-collapse: collapse; }
-th { position: sticky; top: 0; background-color: white; }
-td { text-align: center; }
-tr td:first-child { text-align: right; width: 10em; }
-tbody tr:hover { background-color: #ddd; }
-</style>
-
-<script>
-document.addEventListener(\"DOMContentLoaded\", function() {
-  function hideAllTests() {
-    for(var el of document.getElementsByClassName(\"test-summary\")) {
-//      $(el).removeClass(\"selected\");
-    }
-    for(var el of document.getElementsByClassName(\"test\")) {
-      el.style.display = \"none\";
-    }
-  }
-  function showTests(id) {
-//    $('#' + id).addClass(\"selected\");
-    for(var el of document.getElementsByClassName(\"test\")) {
-    console.log(\"checking for \" + id);
-      if(el.getAttribute(\"data-child-of\") == id) {
-        console.log(\"checking against \" + el.getAttribute(\"data-child-of\") + \" -> \" + el.getAttribute(\"data-child-of\") == id);
-        el.style.display = \"table-row\";
-      }
-    }
-  }
-  for(var el of document.getElementsByClassName(\"test-summary\")) {
-    var item = el;
-    item.onclick = function(t) { hideAllTests(); showTests(t.currentTarget.id);
-    };
-  }
-  hideAllTests();
-});
-</script>")
         (format #t "<table><thead><tr>")
         (for-each (lambda (scheme)
                     (if (symbol? scheme)
@@ -189,7 +145,7 @@ document.addEventListener(\"DOMContentLoaded\", function() {
                   (cons "" scheme-list))
         (format #t "</tr></thead><tbody>")
         (for-each (lambda (group)
-                    (format #t "<tr class=\"group\"><td>~a</td>" (symbol->string group))
+                    (format #t "<tr><td>~a</td>" (symbol->string group))
                     (for-each (lambda (scheme)
                                 (format #t "<td>~a</td>" (group-stats *data* group scheme)))
                               scheme-list)
@@ -202,24 +158,32 @@ document.addEventListener(\"DOMContentLoaded\", function() {
                     (for-each (lambda (test)
                                 (let ((r (get-res group test))
                                       (id (next-id)))
-                                  (format #t "<tr id=\"~a\" class=\"test-summary\"><td>~a</td>~%" id test)
+                                  (format #t "<tr><td>~a" test)
+                                  #;(for-each (lambda (res)
+                                              (format #t
+                                                      "<div>~a~%"
+                                                      (if (string=? "" (car res)) test (car res)))
+                                              (for-each (lambda (scheme)
+                                                          (let ((x (hash-table-ref/default (cdr res) scheme 'unknown)))
+                                                            (format #t "~a"
+                                                                    ;(if (eq? 'ok x) "ok" "error")
+                                                                    (if (eq? x 'ok) "✓" "×"))))
+                                                        (sort *schemes* (lambda (a b) (symbol<? a b))))
+                                              (format #t "</div>"))
+                                            (sort r (lambda (a b) (string<? (car a) (car b)))))
+                                  (format #t "</td>~%")
                                   (for-each (lambda (scheme)
                                               (let* ((x (map (lambda (res)
                                                                (if (eq? 'error (hash-table-ref/default (cdr res) scheme 'error)) 0 1))
                                                              r))
                                                      (ok (apply + x))
                                                      (total (length x)))
-                                                (format #t "<td class=\"~a\">~a<span class=\"details\">~a</span></td>~%" (if (= ok total) 'ok (if (= ok 0) 'error 'partial)) (if (= ok total) "✓" (if (= 0 ok) "×" "◑")) (format #f "~a/~a" ok total)))) ;;
+                                                (format #t "<td>~a ~a</td>~%"
+                                                        (if (= ok total) "✓" (if (= 0 ok) "×" "◑"))
+                                                        (format #f "~a/~a" ok total))))
                                             (sort *schemes* (lambda (a b) (symbol<? a b))))
                                   (format #t "</tr>~%")
-                                  (for-each (lambda (res)
-                                              (format #t "<tr data-child-of=\"~a\" class=\"test\"><td><span class=\"testname offset\">~a</span></td>~%" id (if (string=? "" (car res)) test (car res)))
-                                              (for-each (lambda (scheme)
-                                                          (let ((x (hash-table-ref/default (cdr res) scheme 'unknown)))
-                                                            (format #t "<td class=\"~a\">~a</td>" (if (eq? 'ok x) "ok" "error") (if (eq? x 'ok) "✓" "×"))))
-                                                        (sort *schemes* (lambda (a b) (symbol<? a b))))
-                                              (format #t "</tr>"))
-                                            (sort r (lambda (a b) (string<? (car a) (car b)))))))
+                                  ))
                               (sort (hash-table-ref/default *tests* group '())
                                     (lambda (a b) (string<? a b)))))
                   (sort *groups*
