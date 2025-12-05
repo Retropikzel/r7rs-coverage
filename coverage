@@ -44,7 +44,7 @@ do
                     cat postludes/$SCHEME_NAME.scm >> $tmpfile
                 fi
                 cat $file >> $tmpfile
-                COMPILE_SCHEME=${SCHEME_NAME} compile-scheme -o test.out $tmpfile
+                timeout 60 COMPILE_SCHEME=${SCHEME_NAME} compile-scheme -o test.out $tmpfile
                 timeout ${CPU_LIMIT} ./test.out
                 status=$?
                 rm $tmpfile
