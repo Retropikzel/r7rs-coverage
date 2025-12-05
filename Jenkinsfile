@@ -46,6 +46,7 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: 'r7rs-coverage',
                     reportTitles: 'r7rs-coverage'])
+            archiveArtifacts(artifacts: '*.log', allowEmptyArchive: true, fingerprint: true)
         }
     }
 }
