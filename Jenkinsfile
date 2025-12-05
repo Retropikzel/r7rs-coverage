@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     //def schemes = sh(script: 'compile-scheme --list-r7rs-except larceny', returnStdout: true).split()
-                    def schemes = sh(script: 'chibi', returnStdout: true).split()
+                    def schemes = "chibi".split()
                     schemes.each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
