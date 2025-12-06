@@ -10,7 +10,7 @@ test:
 test-docker:
 	echo "Building docker image..."
 	docker build --build-arg IMAGE=${DOCKERIMG} --build-arg SCHEME=${SCHEME} --tag=r7rs-coverage-${SCHEME} --quiet .
-	docker run -v "${PWD}:/workdir" --workdir /workdir -t r7rs-coverage-${SCHEME} sh -c "make SCHEME=${SCHEME} test ; chmod 755 *.log ; chmod 755 errors.csv"
+	docker run -v "${PWD}:/workdir" --workdir /workdir -t r7rs-coverage-${SCHEME} sh -c "make SCHEME=${SCHEME} test ; chmod -R 755 *.log ; chmod -R 755 errors.csv"
 
 html: index.html
 
