@@ -3,15 +3,15 @@ A simple coverage analysis of the implementation of R7RS in various Schemes.
 
 Jenkins: https://jenkins.scheme.org/job/r7rs_coverage/job/r7rs-coverage/job/master/
 
-To run tests on your machine
+To run tests on your machine:
 
     make SCHEME=chibi test
 
-or inside docker
+or inside docker:
 
     make SCHEME=chibi test-docker
 
 
-To make the report
+To make the report:
 
     make html
