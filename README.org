@@ -2,7 +2,6 @@
 A simple coverage analysis of the implementation of R7RS in various Schemes.
 
 Jenkins: https://jenkins.scheme.org/job/r7rs_coverage/job/r7rs-coverage/job/master/
-Results: 
 
 To run tests on your machine
 
