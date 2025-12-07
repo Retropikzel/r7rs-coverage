@@ -23,7 +23,7 @@ pipeline {
         stage('Tests') {
             steps {
                 script {
-                    def schemes = sh(script: 'compile-scheme --list-r7rs-except larceny', returnStdout: true).split()
+                    def schemes = sh(script: 'compile-scheme --list-r7rs-except larceny loko', returnStdout: true).split()
                     parallel schemes.collectEntries { SCHEME ->
                         [(SCHEME): {
                             stage("${SCHEME}") {
