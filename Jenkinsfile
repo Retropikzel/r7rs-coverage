@@ -42,6 +42,7 @@ pipeline {
     post {
         success {
             sh "make report"
+            sh "chmod R 755 ." // HTML Publish fails without this
             publishHTML (target : [allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
