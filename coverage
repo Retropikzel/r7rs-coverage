@@ -53,11 +53,10 @@ do
             } >> $SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
-                echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params"
             else
                 state=ERROR
-                echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a errors.csv
             fi
+            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results.csv
         fi
     done
     rm $temp_dir/*.scm
