@@ -50,7 +50,7 @@ do
                 rm -rf $tmpfile
                 rm -rf venv/test
                 echo " -> $status"
-            } #>> $SCHEME_NAME.log 2>&1
+            } >> $SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
                 echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params"
