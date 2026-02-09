@@ -24,6 +24,12 @@ pipeline {
 
 
     stages {
+        stage('Clean') {
+            steps {
+                sh "make clean"
+            }
+        }
+
         stage('Tests') {
             steps {
                 script {
