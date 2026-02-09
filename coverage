@@ -3,7 +3,7 @@ set -uo pipefail
 
 SCHEME_NAME="$1"
 SCHEME_VERSION=0.0.0
-CPU_LIMIT=${CPU_LIMIT:-"5"}
+CPU_LIMIT=${CPU_LIMIT:-"30"}
 DOCKERIMG=${SCHEME_NAME}:head
 
 temp_dir=$(mktemp -d)
@@ -25,7 +25,7 @@ do
     do
         if [ -s $file ]; then
             {
-                tmpfile=$(mktemp).scm
+                tmpfile=venv/test.scm
                 test=$(grep ';; TEST' $file | cut -f 3 -d\  )
                 params=$(grep ';; TEST' $file | cut -f 4- -d\  )
                 echo "--------------------------------------------------"
@@ -44,18 +44,20 @@ do
                     cat postludes/$SCHEME_NAME.scm >> $tmpfile
                 fi
                 cat $file >> $tmpfile
-                COMPILE_SCHEME=${SCHEME_NAME} timeout 60 compile-scheme -o test.out $tmpfile
-                timeout ${CPU_LIMIT} ./test.out
-                status=$?
-                rm $tmpfile
+                status=0
+                timeout ${CPU_LIMIT} ./venv/bin/scheme-compile $tmpfile || status=1
+                timeout ${CPU_LIMIT} ./venv/test || status=1
+                rm -rf $tmpfile
+                rm -rf venv/test
                 echo " -> $status"
-            } >> $SCHEME_NAME.log 2>&1
+            } #>> $SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
+                echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params"
             else
                 state=ERROR
+                echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a errors.csv
             fi
-            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a errors.csv
         fi
     done
     rm $temp_dir/*.scm

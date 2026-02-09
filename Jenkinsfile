@@ -10,7 +10,7 @@ pipeline {
     }
 
     triggers{
-        cron('0 4 * * *')
+        cron('@monthly')
     }
 
     options {
@@ -18,14 +18,17 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
 
+    parameters {
+        string(name: 'R7RS_SCHEMES', defaultValue: 'capyscheme chibi chicken cyclone foment gauche gambit guile kawa larceny loko meevax mit-scheme mosh racket sagittarius skint stklos tr7 ypsilon', description: '')
+    }
+
 
     stages {
         stage('Tests') {
             steps {
                 script {
-                    def schemes = sh(script: 'compile-scheme --list-r7rs-except larceny loko', returnStdout: true).split()
-                    schemes.each { SCHEME ->
-                        stage("${SCHEME}") {
+                    params.R7RS_SCHEME.split().each { SCHEME ->
+                        stage("${SCHEME} R7RS") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "make SCHEME=${SCHEME} test-docker"
                             }
