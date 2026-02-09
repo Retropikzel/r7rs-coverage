@@ -41,7 +41,7 @@ pipeline {
 
     post {
         success {
-            sh "make html"
+            sh "make report"
             publishHTML (target : [allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
