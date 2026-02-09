@@ -50,7 +50,7 @@
 (define (symbol<? a b)
   (string<? (symbol->string a) (symbol->string b)))
 (define (read-data)
-  (with-input-from-file "errors.csv"
+  (with-input-from-file "results.csv"
     (lambda ()
       (let loop ((lines '()))
         (let ((line (read-line)))

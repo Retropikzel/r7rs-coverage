@@ -1,4 +1,5 @@
 *.log
+errors.csv
 results.csv
 test.out
 index.html

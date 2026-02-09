@@ -35,7 +35,9 @@ do
                 then
                     cat preludes/$SCHEME_NAME.scm >> $tmpfile
                 else
-                    cat preludes/generic.scm >> $tmpfile
+                    if [ ! "$pkg" = "(scheme base)" ]; then
+                        cat preludes/generic.scm >> $tmpfile
+                    fi
                 fi
                 echo "(import $pkg)" >> $tmpfile
                 echo "(define (assert x) (unless x (error \"ERROR assertion failed\")))" >> $tmpfile
@@ -50,7 +52,7 @@ do
                 rm -rf $tmpfile
                 rm -rf venv/test
                 echo " -> $status"
-            } >> $SCHEME_NAME.log 2>&1
+            } #>> $SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
             else
