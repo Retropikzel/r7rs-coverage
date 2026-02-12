@@ -4,6 +4,7 @@
         (scheme char)
         (scheme process-context)
         (only (srfi 1) first second third fourth fifth)
+        (only (srfi 19) date->string current-date)
         (only (srfi 28) format)
         (srfi 69)
         (only (srfi 95) sort)
@@ -207,6 +208,7 @@
       (parse-data)
       (let ((scheme-list (sort *schemes* (lambda (a b) (symbol<? a b)))))
         (format #t "<html><head><meta charset=\"utf-8\"/></head><body>")
+        (format #t "<p>~a</p>" (date->string (current-date)))
         (format-thead scheme-list)
         (format #t "<tbody>")
         (for-each

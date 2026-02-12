@@ -4,7 +4,7 @@ DOCKERIMG=${SCHEME}:head
 test:
 	rm -rf venv
 	scheme-venv ${SCHEME} r7rs venv
-	./coverage ${SCHEME}
+	./coverage ${SCHEME} $(shell ./venv/bin/scheme-version)
 
 test-docker:
 	docker build --build-arg IMAGE=${DOCKERIMG} --build-arg SCHEME=${SCHEME} --tag=r7rs-coverage-${SCHEME} -f Dockerfile.test .
