@@ -1,5 +1,5 @@
 SCHEME=chibi
-DOCKERIMG=${SCHEME}:head
+DOCKERIMG=${SCHEME}:latest
 
 test:
 	rm -rf venv
