@@ -7,6 +7,8 @@ CPU_LIMIT=${CPU_LIMIT:-"30"}
 DOCKERIMG=${SCHEME_NAME}:head
 
 temp_dir=$(mktemp -d)
+mkdir -p logs
+mkdir -p results
 
 for pkg in input/*.scm
 do
@@ -47,18 +49,18 @@ do
                 fi
                 cat $file >> $tmpfile
                 status=0
-                timeout ${CPU_LIMIT} ./venv/bin/scheme-compile $tmpfile || status=1
-                timeout ${CPU_LIMIT} ./venv/test || status=1
+                timeout -f ${CPU_LIMIT} ./venv/bin/scheme-compile $tmpfile || status=1
+                timeout -f ${CPU_LIMIT} ./venv/test || status=1
                 rm -rf $tmpfile
                 rm -rf venv/test
                 echo " -> $status"
-            } >> $SCHEME_NAME.log 2>&1
+            } >> logs/$SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
             else
                 state=ERROR
             fi
-            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results.csv
+            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results/results.csv
         fi
     done
     rm $temp_dir/*.scm

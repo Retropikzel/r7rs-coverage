@@ -36,7 +36,6 @@ pipeline {
                     params.SCHEMES.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh 'find . -name "*.so" -delete'
                                 sh "make SCHEME=${SCHEME} test-docker"
                             }
                         }
@@ -57,7 +56,10 @@ pipeline {
                     reportFiles: 'index.html',
                     reportName: 'r7rs-coverage',
                     reportTitles: 'r7rs-coverage'])
-            archiveArtifacts(artifacts: '*.log', allowEmptyArchive: true, fingerprint: true)
+            archiveArtifacts(artifacts: 'logs/*.log', allowEmptyArchive: true, fingerprint: true)
+        }
+        always {
+            cleanWs()
         }
     }
 }

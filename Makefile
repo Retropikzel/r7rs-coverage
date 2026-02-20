@@ -13,12 +13,12 @@ test:
 
 test-docker:
 	docker build --build-arg IMAGE=${DOCKER_IMG} --build-arg SCHEME=${SCHEME} --tag=r7rs-coverage-${SCHEME} -f Dockerfile.test .
-	docker run --memory=2G --cpus=2 -v "${PWD}:/workdir" --workdir /workdir -t r7rs-coverage-${SCHEME} sh -c "make SCHEME=${SCHEME} test"
+	docker run -v "${PWD}/results:/workdir/results" -v "${PWD}/logs:/workdir/logs" --workdir /workdir -t r7rs-coverage-${SCHEME} sh -c "make SCHEME=${SCHEME} test; chmod 775 -R logs/*.log"
 
 report: index.html
 
-index.html: results.csv stats.scm
+index.html: results/results.csv stats.scm
 	gosh -r7 stats.scm
 
 clean:
-	rm -f *.log results.csv
+	rm -rf *.log logs results

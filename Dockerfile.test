@@ -4,3 +4,7 @@ FROM schemers/${IMAGE}
 ADD https://codeberg.org/retropikzel/scheme-venv/raw/branch/master/scheme-venv scheme-venv
 RUN install scheme-venv /usr/local/bin/scheme-venv
 RUN apt-get update && apt-get install -y make
+WORKDIR /workdir
+COPY Makefile .
+COPY input input/
+COPY coverage .
