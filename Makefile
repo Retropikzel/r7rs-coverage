@@ -2,6 +2,10 @@ SCHEME=chibi
 DOCKER_IMG_TAG=latest
 DOCKER_IMG=${SCHEME}:${DOCKER_IMG_TAG}
 
+ifeq "${SCHEME}" "sagittarius"
+DOCKER_IMG="sagittarius:head"
+endif
+
 test:
 	rm -rf venv
 	scheme-venv ${SCHEME} r7rs venv
