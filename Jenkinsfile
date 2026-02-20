@@ -57,8 +57,9 @@ pipeline {
                     reportName: 'r7rs-coverage',
                     reportTitles: 'r7rs-coverage'])
             archiveArtifacts(artifacts: 'logs/*.log', allowEmptyArchive: true, fingerprint: true)
+            cleanWs()
         }
-        always {
+        failure {
             cleanWs()
         }
     }
