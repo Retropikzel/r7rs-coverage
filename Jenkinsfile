@@ -36,6 +36,7 @@ pipeline {
                     params.SCHEMES.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                                sh 'find . -name "*.so" -delete'
                                 sh "make SCHEME=${SCHEME} test-docker"
                             }
                         }
