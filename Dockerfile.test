@@ -1,9 +1,11 @@
 ARG SCHEME=chibi
 ARG IMAGE=${SCHEME}:head
 FROM schemers/${IMAGE}
-ADD https://codeberg.org/retropikzel/scheme-venv/raw/branch/master/scheme-venv scheme-venv
-RUN install scheme-venv /usr/local/bin/scheme-venv
-RUN apt-get update && apt-get install -y make
+
+RUN apt-get update && apt-get install -y make git ca-certificates
+RUN git clone https://codeberg.org/retropikzel/compile-r7rs.git --depth=2
+RUN cd compile-r7rs && ./configure && make && make install
+
 WORKDIR /workdir
 COPY Makefile .
 COPY input input/

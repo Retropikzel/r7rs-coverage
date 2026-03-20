@@ -2,7 +2,7 @@
 set -uo pipefail
 
 SCHEME_NAME="$1"
-SCHEME_VERSION="${2}"
+SCHEME_VERSION="0"
 CPU_LIMIT=${CPU_LIMIT:-"30"}
 DOCKERIMG=${SCHEME_NAME}:head
 
@@ -27,7 +27,7 @@ do
     do
         if [ -s $file ]; then
             {
-                tmpfile=venv/test.scm
+                tmpfile=test-program.scm
                 test=$(grep ';; TEST' $file | cut -f 3 -d\  )
                 params=$(grep ';; TEST' $file | cut -f 4- -d\  )
                 echo "--------------------------------------------------"
@@ -49,12 +49,13 @@ do
                 fi
                 cat $file >> $tmpfile
                 status=0
-                timeout -f ${CPU_LIMIT} ./venv/bin/scheme-compile $tmpfile || status=1
-                timeout -f ${CPU_LIMIT} ./venv/test || status=1
+                export COMPILE_R7RS=${SCHEME_NAME}
+                timeout -f ${CPU_LIMIT} compile-r7rs -o test-program $tmpfile || status=1
+                timeout -f ${CPU_LIMIT} ./test-program || status=1
                 rm -rf $tmpfile
-                rm -rf venv/test
+                rm -rf test-program
                 echo " -> $status"
-            } >> logs/$SCHEME_NAME.log 2>&1
+            } #>> logs/$SCHEME_NAME.log 2>&1
             if [ $status == 0 ]; then
                 state=OK
             else

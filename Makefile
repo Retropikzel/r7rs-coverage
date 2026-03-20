@@ -7,9 +7,7 @@ DOCKER_IMG="gambit:head"
 endif
 
 test:
-	rm -rf venv
-	scheme-venv ${SCHEME} r7rs venv
-	./coverage ${SCHEME} "$(shell ./venv/bin/scheme-version)"
+	./coverage ${SCHEME}
 
 test-docker:
 	docker build --build-arg IMAGE=${DOCKER_IMG} --build-arg SCHEME=${SCHEME} --tag=r7rs-coverage-${SCHEME} -f Dockerfile.test .
