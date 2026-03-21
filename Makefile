@@ -2,10 +2,6 @@ SCHEME=chibi
 DOCKER_IMG_TAG=latest
 DOCKER_IMG=${SCHEME}:${DOCKER_IMG_TAG}
 
-ifeq "${SCHEME}" "gambit"
-DOCKER_IMG="gambit:head"
-endif
-
 test:
 	./coverage ${SCHEME}
 
