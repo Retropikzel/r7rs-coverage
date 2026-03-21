@@ -19,7 +19,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'SCHEMES', defaultValue: 'capyscheme chibi chicken cyclone foment gauche guile kawa larceny loko meevax mosh racket sagittarius skint stklos tr7 ypsilon', description: '')
+        string(name: 'SCHEMES', defaultValue: 'capyscheme chibi chicken cyclone foment gauche gambit guile kawa larceny loko meevax mosh racket sagittarius skint stklos tr7 ypsilon', description: '')
     }
 
 
