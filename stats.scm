@@ -230,14 +230,13 @@
                              (let* ((x (count-result r scheme))
                                     (ok (apply + x))
                                     (total (length x)))
-                               (format "<details><summary>~a ~a/~a</summary>~a</br>~a</details>"
-                                       (if (= ok total)
-                                         "✓"
-                                         (if (= 0 ok) "×" "◑"))
-                                       ok
-                                       total
-                                       scheme
-                                       (collect-result-summary r scheme))
+                               (if (= ok total)
+                                 (format "✓ ~a/~a" ok total)
+                                 (format "~a ~a/~a</br>~a"
+                                         (if (= 0 ok) "×" "◑")
+                                         ok
+                                         total
+                                         (collect-result-summary r scheme)))
                                ))
                            scheme-list)))))
               (sort (hash-table-ref/default *tests* group '())
