@@ -14,7 +14,7 @@ jobs:
       image: schemers/chibi:head
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Setup
         run: |
           apt-get update
@@ -25,6 +25,11 @@ jobs:
         run: make SCHEME=gauche test-docker
       - name: Report
         run: ls && make report
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: results
+          path: results/*.csv
       - name: Upload report
         uses: actions/upload-artifact@v4
         with:

@@ -61,7 +61,7 @@ do
             else
                 state=ERROR
             fi
-            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results/results.csv
+            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results/$SCHEME_NAME.csv
         fi
     done
     rm $temp_dir/*.scm

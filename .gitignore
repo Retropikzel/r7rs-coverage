@@ -1,6 +1,6 @@
 *.log
 errors.csv
 results.csv
+results
 test.out
 index.html
-venv
