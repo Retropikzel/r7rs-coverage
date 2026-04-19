@@ -22,7 +22,6 @@ jobs:
           - guile
           - kawa
           - larceny
-          - loko
           - meevax
           - mit-scheme
           - mosh
