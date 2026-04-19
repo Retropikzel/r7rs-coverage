@@ -2,6 +2,7 @@ name: r7rs-compability-report
 
 on:
   push:
+    branches:
       - 'master'
   schedule:
     - cron: "17 4 * * 2"
