@@ -23,7 +23,6 @@ jobs:
           - kawa
           - larceny
           - meevax
-          - mit-scheme
           - mosh
           - racket
           - sagittarius
@@ -31,7 +30,7 @@ jobs:
           - stklos
           - tr7
           - ypsilon
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     container:
       image: debian
     steps:
@@ -52,7 +51,7 @@ jobs:
           name: results-${{ matrix.scheme }}
           path: ${{ github.workspace }}/results/${{ matrix.scheme }}.csv
   Report:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: Tests
     container:
       image: schemers/gauche:head
