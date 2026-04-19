@@ -8,7 +8,10 @@ on:
     - cron: "17 4 * * 2"
 
 jobs:
-  Capyscheme:
+  Tests:
+    strategy:
+      matrix:
+        scheme: [capyscheme, chibi]
     runs-on: ubuntu-22.04
     container:
       image: debian
@@ -22,25 +25,10 @@ jobs:
       - name: Setup
         run: apt-get update && apt-get install -y make docker.io
       - name: Tests
-        run: make CURRENT_DIR=${{github.workspace}} SCHEME=capyscheme test-docker
-  Chibi:
-    runs-on: ubuntu-22.04
-    container:
-      image: debian
-    steps:
-      - uses: actions/cache@v4
-        with:
-          path: results
-          key: results
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Setup
-        run: apt-get update && apt-get install -y make docker.io
-      - name: Tests
-        run: make CURRENT_DIR=${{github.workspace}} SCHEME=capyscheme test-docker
+        run: make CURRENT_DIR=${{github.workspace}} SCHEME=${{ matrix.scheme }} test-docker
   Report:
     runs-on: ubuntu-22.04
-    needs: Capyscheme Chibi
+    needs: Tests
     container:
       image: schemers/gauche:head
     steps:
