@@ -10,17 +10,14 @@ on:
 jobs:
   report:
     runs-on: ubuntu-22.04
-    container:
-      image: schemers/chibi:head
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup
         run: |
           apt-get update
-          apt-get install -y make gcc libffi-dev docker.io gauche
+          apt-get install -y make docker.io gauche
           snow-chibi install --impls=chibi retropikzel.compile-r7rs
-          mkdir -p ${HOME}/.snow && echo '()' > ${HOME}/.snow/config.scm
       - name: Report
         run: |
           make SCHEME=gauche test-docker
