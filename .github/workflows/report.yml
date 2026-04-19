@@ -14,9 +14,9 @@ jobs:
       image: schemers/gauche:head
     steps:
       - uses: actions/cache@v4
-          with:
+        with:
           path: results
-            key: results
+          key: results
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup
