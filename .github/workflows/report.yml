@@ -15,9 +15,48 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate report
+      - name: Setup
         run: |
           apt-get update
           apt-get install -y make gcc libffi-dev
           snow-chibi install --impls=chibi retropikzel.compile-r7rs
-          for scheme in chibi; do make SCHEME=$scheme ; done
+      - name: Capyscheme
+        run: make SCHEME=capyscheme test-docker
+      - name: Chibi
+        run: make SCHEME=chibi test-docker
+      - name: Chicken
+        run: make SCHEME=chicken test-docker
+      - name: Cyclone
+        run: make SCHEME=cyclone test-docker
+      - name: Foment
+        run: make SCHEME=foment test-docker
+      - name: Gauche
+        run: make SCHEME=gauche test-docker
+      - name: Gambit
+        run: make SCHEME=gambit test-docker
+      - name: Guile
+        run: make SCHEME=guile test-docker
+      - name: Kawa
+        run: make SCHEME=kawa test-docker
+      - name: Larceny
+        run: make SCHEME=larceny test-docker
+      - name: Loko
+        run: make SCHEME=loko test-docker
+      - name: Meevax
+        run: make SCHEME=meevax test-docker
+      - name: MIT-Scheme
+        run: make SCHEME=mit-scheme test-docker
+      - name: Mosh
+        run: make SCHEME=mosh test-docker
+      - name: Racket
+        run: make SCHEME=racket test-docker
+      - name: Sagittarius
+        run: make SCHEME=sagittarius test-docker
+      - name: Skint
+        run: make SCHEME=skint test-docker
+      - name: STklos
+        run: make SCHEME=stklos test-docker
+      - name: tr7
+        run: make SCHEME=tr7 test-docker
+      - name: ypsilon
+        run: make SCHEME=ypsilon test-docker
