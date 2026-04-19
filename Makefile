@@ -1,11 +1,7 @@
 SCHEME=chibi
-DOCKER_IMG_TAG=head
+DOCKER_IMG_TAG=latest
 DOCKER_IMG=${SCHEME}:${DOCKER_IMG_TAG}
 CURRENT_DIR=${PWD}
-
-ifeq "${CURRENT_DIR}" ""
-CURRENT_DIR=${PWD}
-endif
 
 test:
 	./coverage ${SCHEME}
