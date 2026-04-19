@@ -20,9 +20,11 @@ jobs:
           - gauche
           - gambit
           - guile
+          - loko
           - kawa
           - larceny
           - meevax
+          - mit-scheme
           - mosh
           - racket
           - sagittarius
