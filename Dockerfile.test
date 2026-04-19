@@ -8,7 +8,7 @@ RUN cp -r /usr/chibi/lib/* /usr/local/lib/
 RUN cp -r /usr/chibi/include/chibi /usr/local/include/chibi
 RUN cp -r /usr/chibi/share/* /usr/local/share/
 RUN cp -r /usr/chibi/bin/*chibi* /usr/local/bin/
-RUN mkdir -p \${HOME}/.snow && echo \"()\" > \${HOME}/.snow/config.scm
+RUN mkdir -p ${HOME}/.snow && echo '()' > ${HOME}/.snow/config.scm
 RUN ldconfig
 RUN snow-chibi install --impls=chibi --always-yes retropikzel.compile-r7rs
 

@@ -20,6 +20,7 @@ jobs:
           apt-get update
           apt-get install -y make gcc libffi-dev docker.io gauche
           snow-chibi install --impls=chibi retropikzel.compile-r7rs
+          mkdir -p \${HOME}/.snow && echo '()' > \${HOME}/.snow/config.scm
       - name: Capyscheme
         run: make SCHEME=capyscheme test-docker
       - name: Chibi
