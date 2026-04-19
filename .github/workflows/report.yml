@@ -13,14 +13,18 @@ jobs:
     container:
       image: schemers/gauche:head
     steps:
+      - uses: actions/cache@v4
+          with:
+          path: results
+            key: results
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup
         run: apt-get update && apt-get install -y make docker.io
+      - name: Gauche
+        run: make SCHEME=gauche test-docker && ls
       - name: Report
-        run: |
-          make SCHEME=gauche test-docker
-          ls && make report
+        run: ls && make report
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
