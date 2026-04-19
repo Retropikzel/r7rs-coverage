@@ -1,6 +1,11 @@
 SCHEME=chibi
 DOCKER_IMG_TAG=head
 DOCKER_IMG=${SCHEME}:${DOCKER_IMG_TAG}
+CURRENT_DIR=${GITHUB_WORKSPACE}
+
+ifeq "${CURRENT_DIR}" ""
+CURRENT_DIR=${PWD}
+endif
 
 test:
 	./coverage ${SCHEME}
@@ -9,8 +14,8 @@ test-docker:
 	docker build --build-arg IMAGE=${DOCKER_IMG} --build-arg SCHEME=${SCHEME} --tag=r7rs-coverage-${SCHEME} -f Dockerfile.test .
 	docker run \
 		--memory=2G --cpus=2 \
-		-v "${PWD}/results:/workdir/results" \
-		-v "${PWD}/logs:/workdir/logs" \
+		-v "${CURRENT_DIR}/results:/workdir/results" \
+		-v "${CURRENT_DIR}/logs:/workdir/logs" \
 		--workdir /workdir \
 		-t r7rs-coverage-${SCHEME} \
 		sh -c "make SCHEME=${SCHEME} test; chmod -R 775 logs/*.log; chmod -R 755 results"
