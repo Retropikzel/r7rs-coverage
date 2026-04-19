@@ -1,5 +1,5 @@
 SCHEME=chibi
-DOCKER_IMG_TAG=latest
+DOCKER_IMG_TAG=head
 DOCKER_IMG=${SCHEME}:${DOCKER_IMG_TAG}
 
 test:

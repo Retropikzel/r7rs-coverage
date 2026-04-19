@@ -21,10 +21,10 @@ jobs:
           apt-get install -y make gcc libffi-dev docker.io gauche
           snow-chibi install --impls=chibi retropikzel.compile-r7rs
           mkdir -p ${HOME}/.snow && echo '()' > ${HOME}/.snow/config.scm
-      - name: Gauche
-        run: make SCHEME=gauche test-docker
       - name: Report
-        run: ls && make report
+        run: |
+          make SCHEME=gauche test-docker
+          ls && make report
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
