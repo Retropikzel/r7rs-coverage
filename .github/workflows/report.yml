@@ -16,6 +16,6 @@ jobs:
       - name: Generate report
         run: |
           apt-get update
-          apt-get install -y make
+          apt-get install -y make gcc libffi-dev
           snow-chibi install --impls=chibi retropikzel.compile-r7rs
           for scheme in chibi do; make SCHEME=$scheme ; done
