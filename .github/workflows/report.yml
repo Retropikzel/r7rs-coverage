@@ -36,19 +36,19 @@ jobs:
     container:
       image: debian
     steps:
-      - uses: actions/cache@v4
+      - uses: actions/cache@main
         with:
           path: ${{ github.workspace}}/results
           key: results
           restore-keys: results
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@main
       - name: Setup
         run: apt-get update && apt-get install -y make docker.io
       - name: Tests
         run: make CURRENT_DIR=${{github.workspace}} SCHEME=${{ matrix.scheme }} test-docker
       - name: Upload results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: results
           path: ${{ github.workspace}}/results
@@ -58,23 +58,23 @@ jobs:
     container:
       image: schemers/gauche:head
     steps:
-      - uses: actions/cache@v4
+      - uses: actions/cache@main
         with:
           path: ${{ github.workspace}}/results
           key: results
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@main
       - name: Setup
         run: apt-get update && apt-get install -y make
       - name: Download results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@main
         with:
           name: results
           path: ${{ github.workspace}}/results
       - name: Report
         run: make report
       - name: Upload report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: report
           path: ${{ github.workspace}}/index.html
