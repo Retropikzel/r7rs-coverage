@@ -22,7 +22,7 @@ jobs:
       - name: Setup
         run: apt-get update && apt-get install -y make docker.io
       - name: Gauche
-        run: make SCHEME=gauche test-docker && ls
+        run: make CURRENT_DIR=${{github.workspace}} SCHEME=gauche test-docker && ls
       - name: Report
         run: ls && make report
       - name: Upload results
