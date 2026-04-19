@@ -50,8 +50,8 @@ jobs:
       - name: Upload results
         uses: actions/upload-artifact@main
         with:
-          name: results
-          path: ${{ github.workspace }}/results
+          name: results-${{ matrix.scheme }}
+          path: ${{ github.workspace }}/results/${{ matrix.scheme }}.csv
   Report:
     runs-on: ubuntu-22.04
     needs: Tests
@@ -69,7 +69,6 @@ jobs:
       - name: Download results
         uses: actions/download-artifact@main
         with:
-          name: results
           path: ${{ github.workspace }}/results
       - name: Report
         run: make report
