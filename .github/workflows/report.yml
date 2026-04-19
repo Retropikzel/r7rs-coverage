@@ -40,7 +40,7 @@ jobs:
         run: make CURRENT_DIR=${{github.workspace}} SCHEME=capyscheme test-docker
   Report:
     runs-on: ubuntu-22.04
-    needs: capyscheme chibi
+    needs: Capyscheme Chibi
     container:
       image: schemers/gauche:head
     steps:
