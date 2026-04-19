@@ -70,6 +70,7 @@ jobs:
         uses: actions/download-artifact@main
         with:
           path: ${{ github.workspace }}/results
+          merge-multiple: true
       - name: Report
         run: make report
       - name: Upload report
