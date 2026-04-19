@@ -18,8 +18,9 @@ jobs:
     steps:
       - uses: actions/cache@v4
         with:
-          path: results
+          path: ${{ github.workspace}}/results
           key: results
+          restore-keys: results
       - name: Checkout
         uses: actions/checkout@v6
       - name: Setup
@@ -34,7 +35,7 @@ jobs:
     steps:
       - uses: actions/cache@v4
         with:
-          path: results
+          path: ${{ github.workspace}}/results
           key: results
       - name: Checkout
         uses: actions/checkout@v6

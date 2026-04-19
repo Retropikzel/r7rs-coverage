@@ -4,7 +4,6 @@ set -uo pipefail
 SCHEME_NAME="$1"
 SCHEME_VERSION="0"
 CPU_LIMIT=${CPU_LIMIT:-"10"}
-DOCKERIMG=${SCHEME_NAME}:head
 
 temp_dir=$(mktemp -d)
 mkdir -p logs
