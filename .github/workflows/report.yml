@@ -1,0 +1,24 @@
+name: r7rs-compability-report
+
+on:
+  push:
+      - 'master'
+  schedule:
+    - cron: "17 4 * * 2"
+
+jobs:
+  report:
+    runs-on: ubuntu-22.04
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+    container:
+      image: schemers/chibi:head
+    steps:
+      - name: Generate report
+        run: |
+          apt-get update
+          apt-get install -y make
+          snow-chibi install --impls=chibi retropikzel.compile-r7rs
+          for scheme in chibi do; make SCHEME=$scheme ; done
