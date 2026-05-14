@@ -20,13 +20,8 @@ pipeline {
                 script {
                     params.R7RS_SCHEMES.split().each { SCHEME ->
                         stage("${SCHEME}") {
-                            agent {
-                                docker {
-                                    image "schemers/${SCHEME}:head"
-                                }
-                            }
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "./coverage ${SCHEME}"
+                                sh "docker run schemers/${SCHEME} -v ${PWD}:/workdir -w /workdir ./coverage ${SCHEME}"
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
                                 publishHTML (target : [allowMissing: true,
