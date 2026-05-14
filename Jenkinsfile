@@ -64,6 +64,14 @@ pipeline {
                 reportFiles: 'results.csv',
                 reportName: 'results.csv',
                 reportTitles: 'results.csv'])
+                sh "tar -zcvf logs.tgz *.log"
+                publishHTML (target : [allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'logs.tgz',
+                reportName: 'logs.tgz',
+                reportTitles: 'logs.tgz'])
             }
         }
     }
