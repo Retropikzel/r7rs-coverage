@@ -25,22 +25,25 @@ pipeline {
                             }
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "./coverage ${SCHEME}"
+                                archiveArtifacts artifacts: '*.log', fingerprint: true
+                                archiveArtifacts artifacts: '*.csv', fingerprint: true
                             }
                         }
                     }
                 }
             }
         }
+        /*
         stage('HTML') {
             agent {
                 docker {
-                    image "schemers/mit-scheme:latest"
+                    image "schemers/chibi-scheme:head"
                 }
             }
             steps {
-                sh "mit-scheme --load stats.scm --eval '(begin (format-stats) (%exit 0))'"
+                sh "chibi-scheme stats.scm"
             }
         }
-
+        */
     }
 }
