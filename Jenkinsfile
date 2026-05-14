@@ -8,7 +8,7 @@ pipeline {
         }
     }
 
-    triggers{ cron('0 0 * * WED') }
+    triggers{ cron('0 0 * * 3') }
 
     options {
         disableConcurrentBuilds()
