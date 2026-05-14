@@ -34,7 +34,7 @@ pipeline {
         stage('HTML') {
             agent {
                 docker {
-                    image "schemers/mit-scheme:head"
+                    image "schemers/mit-scheme:latest"
                 }
             }
             steps {
