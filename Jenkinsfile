@@ -30,13 +30,6 @@ pipeline {
                                 sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME}:head sh -c \"./coverage ${SCHEME}\""
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
-                                publishHTML (target : [allowMissing: true,
-                                alwaysLinkToLastBuild: true,
-                                keepAll: true,
-                                reportDir: '.',
-                                reportFiles: "${SCHEME}.log",
-                                reportName: "${SCHEME}.log",
-                                reportTitles: "${SCHEME}.log"])
                             }
                         }
                     }
