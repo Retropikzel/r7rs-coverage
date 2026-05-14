@@ -45,6 +45,17 @@ pipeline {
             }
         }
         */
+        stage('Publish') {
+            steps {
+                publishHTML (target : [allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'results.csv',
+                reportName: 'Results',
+                reportTitles: 'R7RS Coverage'])
+            }
+        }
     }
     post {
         always {
