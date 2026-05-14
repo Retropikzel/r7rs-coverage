@@ -27,6 +27,13 @@ pipeline {
                                 sh "./coverage ${SCHEME}"
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
+                                publishHTML (target : [allowMissing: true,
+                                alwaysLinkToLastBuild: true,
+                                keepAll: true,
+                                reportDir: '.',
+                                reportFiles: "${SCHEME}.log",
+                                reportName: "${SCHEME}.log",
+                                reportTitles: "${SCHEME}.log"])
                             }
                         }
                     }
@@ -52,8 +59,8 @@ pipeline {
                 keepAll: true,
                 reportDir: '.',
                 reportFiles: 'results.csv',
-                reportName: 'Results',
-                reportTitles: 'R7RS Coverage'])
+                reportName: 'results.csv',
+                reportTitles: 'results.csv'])
             }
         }
     }
