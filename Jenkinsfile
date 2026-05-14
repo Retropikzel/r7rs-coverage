@@ -27,7 +27,7 @@ pipeline {
                     params.R7RS_SCHEMES.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "docker run schemers/${SCHEME} -v ${PWD}:/workdir -w /workdir ./coverage ${SCHEME}"
+                                sh "docker run -v ${PWD}:/workdir -w /workdir shemers/${SCHEME}:head ./coverage ${SCHEME}"
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
                                 publishHTML (target : [allowMissing: true,
