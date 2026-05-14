@@ -45,7 +45,7 @@ case "$1" in
            ;;
     chicken) SCHEME_EXE=csi_exec
              SCHEME_NAME=chicken
-             SCHEME_VERSION=$(csi -version | cut -f 1 -d - )
+             SCHEME_VERSION=$(csi -version | grep Version | awk '{print($2)}')
              ;;
     larceny) SCHEME_EXE=larceny_exec
              SCHEME_NAME=larceny
