@@ -3,6 +3,8 @@ pipeline {
         label 'docker-x86_64'
     }
 
+    triggers{ cron('0 0 * * WED') }
+
     options {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
