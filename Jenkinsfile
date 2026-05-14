@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi', description: '')
+        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken', description: '')
     }
 
     stages {

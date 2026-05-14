@@ -63,9 +63,9 @@ tinyscheme.log:
 
 html: index.html
 
-index.html: errors.csv stats.scm
+index.html: results.csv stats.scm
 	chibi-scheme stats.scm
 	#mit-scheme --load stats.scm --eval '(begin (format-stats) (%exit 0))'
 
 clean:
-	rm -f *.log errors.csv
+	rm -f *.log results.csv
