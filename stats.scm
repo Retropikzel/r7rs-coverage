@@ -1,15 +1,12 @@
+;; chez scheme
 (import (scheme base)
-        (scheme file)
-        (scheme char)
-        ;(only (mit-compat) nested-hash-table/put! nested-hash-table/get burst-string)
-        (only (srfi 1) first second third fourth fifth)
-        (srfi 28)
-        (srfi 69)
-        (srfi 95))
+        (only (mit-compat) nested-hash-table/put! nested-hash-table/get burst-string)
+        (only (srfi :1) first second third fourth fifth)
+        (srfi :69))
 (define (symbol<? a b)
   (string<? (symbol->string a) (symbol->string b)))
 (define (read-data)
-  (with-input-from-file "results.csv"
+  (with-input-from-file "errors.csv"
     (lambda ()
       (let loop ((lines '()))
         (let ((line (read-line)))
@@ -181,6 +178,5 @@ document.addEventListener(\"DOMContentLoaded\", function() {
                                             (sort (lambda (a b) (string<? (car a) (car b))) r))))
                               (sort string<? (hash-table-ref/default *tests* group '()))))
                   (sort symbol<? *groups*))
-        (format #t "</tbody></table></body></html>")))))
-
-(format-stats)
+        (format #t "</tbody></table></body></html>")))
+    'replace))

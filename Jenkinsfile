@@ -16,8 +16,7 @@ pipeline {
     }
 
     parameters {
-        //string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
-        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken')
+        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
     }
 
     stages {
@@ -36,18 +35,6 @@ pipeline {
                 }
             }
         }
-        /*
-        stage('HTML') {
-            agent {
-                docker {
-                    image "schemers/chibi-scheme:head"
-                }
-            }
-            steps {
-                sh "chibi-scheme stats.scm"
-            }
-        }
-        */
         stage('Publish') {
             steps {
                 sh "tar -zcvf logs.tgz *.log"
