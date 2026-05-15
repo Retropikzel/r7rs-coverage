@@ -12,9 +12,7 @@
 (csv-map
   (lambda (row)
     (when (not (member (car row) implementations))
-      (set! implementations (cons (string-append (car row)
-                                                 "-"
-                                                 (list-ref row 1))
+      (set! implementations (cons (car row)
                                   implementations)))
     (set! rows (cons row rows)))
   (csv-read->list)
@@ -26,9 +24,7 @@
       (cons "Library"
             (filter-map
               (lambda (row)
-                (if (equal? (string-append (car row)
-                                           "-"
-                                           (list-ref row 1))
+                (if (equal? (car row)
                             (car implementations))
                          (list-ref row 2)
                   #f))
