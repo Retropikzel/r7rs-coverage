@@ -21,11 +21,10 @@ pipeline {
         stage('Coverage') {
             steps {
                 script {
-                    'chibi:head chicken:5 chicken:head'.split().each { SCHEME ->
+                    'chibi chicken'.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                scheme="${SCHEME}".split(":")
-                                sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME} sh -c \"./coverage ${scheme[0]}\""
+                                sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME}:head sh -c \"./coverage ${SCHEME}\""
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
                             }
