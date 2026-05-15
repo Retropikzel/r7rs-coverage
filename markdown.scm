@@ -23,6 +23,17 @@
 (define result
   (append
     (list
+      (cons "Library"
+            (filter-map
+              (lambda (row)
+                (if (equal? (string-append (car row)
+                                           "-"
+                                           (list-ref row 1))
+                            (car implementations))
+                         (list-ref row 2)
+                  #f))
+              rows)))
+    (list
       (cons "Test"
             (filter-map
               (lambda (row)
@@ -30,11 +41,11 @@
                                            "-"
                                            (list-ref row 1))
                             (car implementations))
-                  (apply
-                    string-append
-                    (map (lambda (item)
-                           (string-append item " "))
-                         (list-tail row 4)))
+                  (string-append
+                    (list-ref row 4)
+                    " ("
+                    (list-ref row 5)
+                    ")")
                   #f))
               rows)))
     (map
