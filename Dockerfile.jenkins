@@ -1,2 +1,2 @@
-FROM debian:trixie
-RUN apt-get update && apt-get install -y docker.io
+FROM schemers/chibi:head
+RUN apt-get update && apt-get install -y docker.io make

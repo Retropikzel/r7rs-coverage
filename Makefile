@@ -64,8 +64,12 @@ tinyscheme.log:
 html: index.html
 
 index.html: results.csv stats.scm
-	chibi-scheme stats.scm
-	#mit-scheme --load stats.scm --eval '(begin (format-stats) (%exit 0))'
+	mit-scheme --load stats.scm --eval '(begin (format-stats) (%exit 0))'
+
+markdown: report.md
+
+report.md: results.csv
+	chibi-scheme markdown.scm > report.md
 
 clean:
 	rm -f *.log results.csv

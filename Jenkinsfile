@@ -36,10 +36,29 @@ pipeline {
                 }
             }
         }
+        stage('Markdown report') {
+            steps {
+                sh "make markdown"
+            }
+        }
         stage('Publish') {
             steps {
                 sh "tar -zcvf logs.tgz *.log"
                 archiveArtifacts artifacts: 'logs.tgz', fingerprint: true
+
+                archiveArtifacts artifacts: 'report.md', fingerprint: true
+
+                sh "echo '<pre>' > markdown.html"
+                sh "cat markdown.md >> markdown.html"
+                sh "echo '</pre>' >> markdown.html"
+
+                publishHTML (target : [allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: '.',
+                reportFiles: 'markdown.html',
+                reportName: 'markdown.html',
+                reportTitles: 'markdown.html'])
             }
         }
     }
