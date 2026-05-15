@@ -15,16 +15,13 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
 
-    parameters {
-        //string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
-        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken')
-    }
+    //string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
 
     stages {
         stage('Coverage') {
             steps {
                 script {
-                    params.R7RS_SCHEMES.split().each { SCHEME ->
+                    'chibi chicken'.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME}:head sh -c \"./coverage ${SCHEME}\""
@@ -38,7 +35,7 @@ pipeline {
         }
         stage('Markdown report') {
             steps {
-                sh "make markdown"
+                sh "make report.md"
             }
         }
         stage('Publish') {
