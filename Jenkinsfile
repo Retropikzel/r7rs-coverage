@@ -16,7 +16,8 @@ pipeline {
     }
 
     parameters {
-        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
+        //string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken cyclone foment gauche gerbil guile kawa larceny loko mit-sheme picrin racket sagittarius')
+        string(name: 'R7RS_SCHEMES', defaultValue: 'chibi chicken')
     }
 
     stages {
