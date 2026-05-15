@@ -249,7 +249,6 @@ do
                 tmpfile=$(mktemp)
                 test=$(grep ';; TEST' $file | cut -f 3 -d\  )
                 params=$(grep ';; TEST' $file | cut -f 4- -d\  )
-                code=$(tail -n1 $file | sed 's/\n/ /g')
                 echo "--------------------------------------------------"
                 echo "$pkg" "$test" "$params"
                 if [ -r preludes/$SCHEME_NAME.scm ]
@@ -272,7 +271,7 @@ do
             else
                 state=ERROR
             fi
-            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params,$code" | tee -a results.csv
+            echo "$SCHEME_NAME,$SCHEME_VERSION,$package,$state,$test,$params" | tee -a results.csv
         fi
     done
     rm $temp_dir/*.scm
