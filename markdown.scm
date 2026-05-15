@@ -55,8 +55,10 @@
 (show #t
       (apply tabular
              (apply append
-                    (map (lambda (line)
-                           (list "|" (each line)))
-                         result-strings))))
+                    (append
+                      (map (lambda (line)
+                             (list "|" (each line)))
+                           result-strings)
+                      (list (list "|"))))))
 
 
