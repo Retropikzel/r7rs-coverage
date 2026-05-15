@@ -69,7 +69,7 @@ index.html: results.csv stats.scm
 markdown: report.md
 
 report.md: results.csv
-	chibi-scheme markdown.scm #> report.md
+	chibi-scheme markdown.scm > report.md
 
 clean:
 	rm -f *.log results.csv
