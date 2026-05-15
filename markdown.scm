@@ -12,7 +12,10 @@
 (csv-map
   (lambda (row)
     (when (not (member (car row) implementations))
-      (set! implementations (cons (car row) implementations)))
+      (set! implementations (cons (string-append (car row)
+                                                 "-"
+                                                 (list-ref row 1))
+                                  implementations)))
     (set! rows (cons row rows)))
   (csv-read->list)
   port)
@@ -23,7 +26,10 @@
       (cons "Test"
             (filter-map
               (lambda (row)
-                (if (equal? (car row) (car implementations))
+                (if (equal? (string-append (car row)
+                                           "-"
+                                           (list-ref row 1))
+                            (car implementations))
                   (apply
                     string-append
                     (map (lambda (item)
@@ -40,7 +46,7 @@
                     (list-ref row 3)
                     #f))
                 rows)))
-      implementations)))
+      (reverse implementations))))
 
 (define result-strings
   (map (lambda (line)

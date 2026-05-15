@@ -1,7 +1,7 @@
 pipeline {
     agent {
         dockerfile {
-            label 'agent1'
+            label 'docker-x86_64'
             filename 'Dockerfile.jenkins'
             args '--user=root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
             reuseNode true
@@ -21,10 +21,11 @@ pipeline {
         stage('Coverage') {
             steps {
                 script {
-                    'chibi chicken'.split().each { SCHEME ->
+                    'chibi:head chicken:5 chicken:head'.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                                sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME}:head sh -c \"./coverage ${SCHEME}\""
+                                scheme="${SCHEME}".split(":")
+                                sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME} sh -c \"./coverage ${scheme[0]}\""
                                 archiveArtifacts artifacts: '*.log', fingerprint: true
                                 archiveArtifacts artifacts: '*.csv', fingerprint: true
                             }
