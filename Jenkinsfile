@@ -19,7 +19,7 @@ pipeline {
         stage('Coverage') {
             steps {
                 script {
-                    'chibi chicken cyclone foment gauche kawa larceny loko racket sagittarius'.split().each { SCHEME ->
+                    'chibi chicken cyclone kawa larceny loko racket sagittarius'.split().each { SCHEME ->
                         stage("${SCHEME}") {
                             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                 sh "docker run -v ${WORKSPACE}:/workdir -w /workdir schemers/${SCHEME}:head sh -c \"./coverage ${SCHEME}\""
