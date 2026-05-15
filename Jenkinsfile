@@ -36,14 +36,17 @@ pipeline {
         stage('Markdown report') {
             steps {
                 sh "make report.md"
+                archiveArtifacts artifacts: 'report.md', fingerprint: true
+            }
+        }
+        stage('Log tar') {
+            steps {
+                sh "tar -zcvf logs.tgz *.log"
+                archiveArtifacts artifacts: 'logs.tgz', fingerprint: true
             }
         }
         stage('Publish') {
             steps {
-                sh "tar -zcvf logs.tgz *.log"
-                archiveArtifacts artifacts: 'logs.tgz', fingerprint: true
-
-                archiveArtifacts artifacts: 'report.md', fingerprint: true
 
                 sh "echo '<pre>' > report.md.html"
                 sh "cat report.md >> report.md.html"
