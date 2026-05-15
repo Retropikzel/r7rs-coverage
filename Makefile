@@ -39,7 +39,7 @@ larceny.log:
 loko: loko.log Makefile
 loko.log:
 	./coverage loko
-mit: mit.log Makefile
+mit-scheme: mit.log Makefile
 mit.log:
 	./coverage mit
 oaklisp: oaklisp.log Makefile

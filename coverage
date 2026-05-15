@@ -27,7 +27,7 @@ case "$1" in
           SCHEME_EXE=loko_exec
           SCHEME_VERSION=$(echo | loko | grep -e '^Loko Scheme ' | sed 's/Loko Scheme //')
           ;;
-    mit) SCHEME_EXE=mit_scheme_exec
+    mit-scheme) SCHEME_EXE=mit_scheme_exec
          SCHEME_NAME=mit
          SCHEME_VERSION=$(mit-scheme --version | grep Release | cut -f 4 -d\  )
          ;;
