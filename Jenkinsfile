@@ -48,17 +48,17 @@ pipeline {
 
                 archiveArtifacts artifacts: 'report.md', fingerprint: true
 
-                sh "echo '<pre>' > markdown.html"
-                sh "cat markdown.md >> markdown.html"
-                sh "echo '</pre>' >> markdown.html"
+                sh "echo '<pre>' > report.md.html"
+                sh "cat report.md >> report.md.html"
+                sh "echo '</pre>' >> report.md.html"
 
                 publishHTML (target : [allowMissing: true,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: '.',
-                reportFiles: 'markdown.html',
-                reportName: 'markdown.html',
-                reportTitles: 'markdown.html'])
+                reportFiles: 'report.md.html',
+                reportName: 'report.md.html',
+                reportTitles: 'report.md.html'])
             }
         }
     }

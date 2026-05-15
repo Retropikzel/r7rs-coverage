@@ -2,7 +2,8 @@
         (scheme write)
         (scheme file)
         (chibi csv)
-        (srfi 1))
+        (srfi 1)
+        (srfi 166))
 
 (define port (open-input-file "results.csv"))
 (define implementations '())
@@ -17,37 +18,45 @@
   port)
 
 (define result
-  (append
-    (list
-      (cons "Test"
-            (filter-map
-              (lambda (row)
-                (if (equal? (car row) (car implementations))
-                  (apply
-                    string-append
-                    (map (lambda (item)
-                           (string-append item " "))
-                         (list-tail row 4)))
-                  #f))
-              rows)))
-    (map
-      (lambda (implementation)
-        (cons implementation
-              (filter-map
-                (lambda (row)
-                  (if (equal? (car row) implementation)
-                    (list-ref row 3)
-                    #f))
-                rows)))
-      implementations)))
+  (apply zip
+         (append
+           (list
+             (cons "Test"
+                   (filter-map
+                     (lambda (row)
+                       (if (equal? (car row) (car implementations))
+                         (apply
+                           string-append
+                           (map (lambda (item)
+                                  (string-append item " "))
+                                (list-tail row 4)))
+                         #f))
+                     rows)))
+           (map
+             (lambda (implementation)
+               (cons implementation
+                     (filter-map
+                       (lambda (row)
+                         (if (equal? (car row) implementation)
+                           (list-ref row 3)
+                           #f))
+                       rows)))
+             implementations))))
 
-(for-each
-  (lambda (line)
-    (for-each
-      (lambda (item)
-        (map display `("| " ,item " ")))
-      line)
-    (map display '(" |" #\newline)))
-  (apply zip result))
+(define result-strings
+  (map (lambda (line)
+         (apply string-append
+                (append (map (lambda (item)
+                               (string-append item "\n"))
+                             line)
+                        (list "\n"))))
+       result))
+
+(show #t
+      (apply tabular
+             (apply append
+                    (map (lambda (line)
+                           (list "|" (each line)))
+                         result-strings))))
 
 
