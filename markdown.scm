@@ -21,7 +21,8 @@
 (define result
   (append
     (list
-      (cons "Library"
+      (append (list "Library"
+                    "----")
             (filter-map
               (lambda (row)
                 (if (equal? (car row)
@@ -30,7 +31,8 @@
                   #f))
               rows)))
     (list
-      (cons "Test"
+      (append (list "Test"
+            "----")
             (filter-map
               (lambda (row)
                 (if (equal? (string-append (car row)
@@ -46,7 +48,8 @@
               rows)))
     (map
       (lambda (implementation)
-        (cons implementation
+        (append (list implementation
+                      "----")
               (filter-map
                 (lambda (row)
                   (if (equal? (car row) implementation)
